@@ -1,0 +1,25 @@
+\documentclass{article}
+\begin{document}
+\thispagestyle{empty}
+  \begin{tabular}{rrl}
+    Input & Output & Related contexts\\
+    \hline
+    {\tt a} & {\tt a} & $L=\{\mathtt{a},1\cdots\}$\\
+    {\tt b} & {\tt b} & $L_{\mathtt{a}}=\{\mathtt{b},1\},~L=\{\mathtt{b},1~\mathtt{a},1\cdots\}$\\
+    {\tt a} &     $1$ & $L_{\mathtt{b}}=\{\mathtt{a},1\},~L=\{\mathtt{a},2~\mathtt{b},1\cdots\}$\\
+    {\tt b} &     $0$ & $L_{\mathtt{a}}=\{\mathtt{b},2\}$\\
+    {\tt c} & {\tt c} & $L_{\mathtt{b}}=\{\mathtt{c},1~\mathtt{a},1\},~L=\{\mathtt{a},2~\mathtt{c},1~\mathtt{b},1\cdots\}$\\
+    {\tt b} &     $2$ & $L_{\mathtt{c}}=\{\mathtt{b},1\}, L=\{\mathtt{b},2~\mathtt{a},2~\mathtt{c},1\cdots\}$\\ 
+    {\tt a} &     $1$ & $L_{\mathtt{b}}=\{\mathtt{a},2~\mathtt{c},1\}$\\
+    {\tt b} &     $0$ & $L_{\mathtt{a}}=\{\mathtt{b},3\}$\\
+    {\tt a} &     $0$ & $L_{\mathtt{b}}=\{\mathtt{a},3~\mathtt{c},1\}$\\
+    {\tt b} &     $0$ & $L_{\mathtt{a}}=\{\mathtt{b},4\}$\\
+    {\tt a} &     $0$ & $L_{\mathtt{b}}=\{\mathtt{a},4~\mathtt{c},1\}$\\
+    {\tt a} &     $1$ & $L_{\mathtt{a}}=\{\mathtt{b},4~\mathtt{a},1\}, L=\{\mathtt{a},3~\mathtt{b},2~\mathtt{c},1\cdots\}$\\
+    {\tt a} &     $1$ & $L_{\mathtt{a}}=\{\mathtt{b},4~\mathtt{a},2\}$\\
+    {\tt a} &     $1$ & $L_{\mathtt{a}}=\{\mathtt{b},4~\mathtt{a},3\}$\\
+    {\tt a} &     $0$ & $L_{\mathtt{a}}=\{\mathtt{a},4~\mathtt{b},4\}$\\
+    {\tt a} &     $0$ & $L_{\mathtt{a}}=\{\mathtt{a},5~\mathtt{b},4\}$\\
+    {\tt a} &     $0$ & $L_{\mathtt{a}}=\{\mathtt{a},6~\mathtt{b},4\}$
+  \end{tabular}
+\end{document}
