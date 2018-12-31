@@ -1,0 +1,177 @@
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "<none>"
+%%% End:
+
+\title{Context-based Text Predictive transform}
+
+\author{Vicente González Ruiz}
+
+\maketitle
+
+\section{Preamble}
+\begin{itemize}
+\item
+  The MTF uses a model where the next encoded symbol (that can be
+  happened only one time) can get an index-code that is lower than the
+  index-code of a symbol that previously has been found thousands of
+  times :-(
+\item
+  We can solve this problem if the positions of the symbols are
+  determined by their probability. In other words, the list \(L\) will
+  be sorted by the ocurrence of the symbols.
+\end{itemize}
+
+\section{0-order encoder}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The step 1 of the MTF transform, although now there is a counter for
+  every node in the list.
+\item
+  While the input is not exhausted:
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \(s\leftarrow\) next input symbol.
+  \item
+    \(c\leftarrow\) position of \(s\) in \(L\) (the prediction error).
+  \item
+    Output \(\leftarrow c\).
+  \item
+    Update the count of \(L[c]\) (the count of \(s\)) and keep sorted
+    \(L\).
+  \end{enumerate}
+\end{enumerate}
+
+\subsection{Example}
+\img{450}{graphics/TPT_example.png}
+
+\section{0-order decoder}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The step 1 of the encoder.
+\item
+  While the input is not exhausted:
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \(c\leftarrow\) next input code.
+  \item
+    \(s\leftarrow L[c]\).
+  \item
+    Output \(s\).
+  \item
+    Step 2.D of the encoder.
+  \end{enumerate}
+\end{enumerate}
+
+\subsection{Example}
+TO-DO
+
+\section{$N$-order encoder}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Let \({\cal C}[i]\) the context of a input symbol \(s\) and
+  \(L_{{\cal C}[i]}\) the list previous simbols for that context. If
+  \(i>0\) then the lists are empty, else, the list is fully populated
+  and the count of every node is \(0\).
+\item
+  Let \(k\) the order of the prediction.
+\item
+  Let \(H=\varnothing\) a list of tested symbols. All symbols in \(H\)
+  must be different.
+\item
+  While the input is not exhausted:
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \(s\leftarrow\) the next input symbol.
+  \item
+    \(i\leftarrow k\) (except for the first symbol, where
+    \(i\leftarrow 0\)).
+  \item
+    While \(s\notin L_{{\cal C}[i]}\):
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      \(H\leftarrow \text{reduce}(H\cup L_{{\cal C}[i]})\). \#
+      reduce\(()\) deletes the repeated nodes.
+    \item
+      Update the count of \(s\) in \(L_{{\cal C}[i]}\) and keep sorted
+      it.
+    \item
+      \(i\leftarrow i-1\).
+    \end{enumerate}
+  \item
+    Let \(c\) the position of \(s\) en \(L_{{\cal C}[i]}\).
+  \item
+    \(c\leftarrow c~+\) symbols of \(H\setminus L_{{\cal C}[i]}\). So,
+    the decoder will know the length of the context where \(s\) happens
+    and does not count the same symbol twice.
+  \item
+    Output \(\leftarrow c\).
+  \item
+    Update the count of \(s\) in \(L_{{\cal C}[i]}\) and keep sorted it.
+  \item
+    \(H\leftarrow\varnothing\).
+  \end{enumerate}
+\end{enumerate}
+
+\subsection{Example ($k=1$)}
+\img{500}{graphics/CBTPT_example.png}
+
+\section{$N$-order decoder}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Steps 1, 2 and 3 of the encoder.
+\item
+  While the input is not exhausted:
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    \(c\leftarrow\) the next input code.
+  \item
+    \(i\leftarrow k\) (except for the first symbol, where
+    \(i\leftarrow 0\)).
+  \item
+    While \(L_{{\cal C}[i]}=\varnothing\):
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      \(H\leftarrow \text{reduce}(H\cup L_{{\cal C}[i]})\).
+    \item
+      \(i\leftarrow i-1\).
+    \end{enumerate}
+  \item
+    \(s\leftarrow \text{reduce}(H\cup L_{{\cal C}[i]})\).
+  \item
+    Update the count of \(L_{{\cal C}[i]}\).
+  \item
+    While \(i<k\):
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      \(i\leftarrow i+1\).
+    \item
+      Insert the symbol \(s\) in \(L_{{\cal C}[i]}\).
+    \end{enumerate}
+  \end{enumerate}
+\end{enumerate}
+
+\subsection{Example}
+TO-DO
